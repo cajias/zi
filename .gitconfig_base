@@ -1,0 +1,29 @@
+[alias]
+	plog = log -10 --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+	fp = push -f origin HEAD
+	co = checkout
+	ci = commit
+	st = status
+	unstage = reset HEAD --
+	last = log -1 HEAD
+	ac = !git add -A && git commit -a
+	aca = !git add -A && git commit -a --amend --no-edit
+        acap= !git aca && git fp
+	br = branch
+
+[filter "lfs"]
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+[init]
+	defaultBranch = main
+[core]
+	pager = cat
+	autocrlf = input
+[pull]
+	rebase = true
+[color]
+	ui = auto
+[url "git@github.com:"]
+	insteadOf = https://github.com/
