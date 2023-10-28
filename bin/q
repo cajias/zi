@@ -1,0 +1,3 @@
+#!/bin/zsh
+
+ollama run llama2-uncensored $@

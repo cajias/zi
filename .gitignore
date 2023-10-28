@@ -1,4 +1,15 @@
-*
+.*
+Applications/
+Desktop/
+Documents/
+Downloads/
+Library/
+Movies/
+Music/
+Pictures/
+Projects/
+anaconda3/
+go/
 !.gitignore
 !.gitconfig_base
 !bin
