@@ -1,0 +1,5 @@
+#!/bin/sh
+
+#echo "$@"
+ollama run phind-codellama "$@"
+
