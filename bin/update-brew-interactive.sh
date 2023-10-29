@@ -61,8 +61,6 @@ if [ -z "$last_timestamp" ] || [ "${curr_timestamp}" -ne "${last_timestamp}" ]; 
     wait $command_pid
 fi
 
-if [ -z "$(cat ${output_file})" ]; then
-    exit 0
+if [ -n "$(cat ${output_file})" ]; then
+    update_packages "${output_file}"
 fi
-
-update_packages "${output_file}"
