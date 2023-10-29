@@ -1,6 +1,7 @@
 #!/bin/zsh
 script_dir="$(cd "$(dirname "$0")" && pwd)"
 timestamp_file="${script_dir}/.daily_script_timestamp"
+touch "${timestamp_file}"
 
 ALERT='\033[1;33m' # Yellow
 NC='\033[0m' # No Color
@@ -8,9 +9,6 @@ bold=$(tput bold)
 normal=$(tput sgr0)
 RED='\033[0;31m'
 YELLOW='\033[1;33m'
-
-update_command="brew upgrade"
-find_outdated_command="brew outdated"
 
 # Function to show a spinner in Zsh on macOS
 spinner() {
@@ -33,38 +31,38 @@ spinner() {
     echo -e "\r"  # Clear the spinner line
 }
 
-update_packages(){    
-    output=$1
-    if [ -z ${output} ];then
-        return
-    fi
+update_packages(){
+    local packages=$(cat $1)
     echo "${ALERT}"
     echo "=========================================="
     echo "  Homebrew Updates Available"
     echo ""
-    echo "${output}"
+    echo "${packages}"
     echo ""
-    echo "${bold} To update run \"${ALERT}${update_command}${NC}\"."
+    echo "${bold} To update run \"${ALERT}brew upgrade${NC}\"."
     echo "=========================================="
-    vared -p "Update now? [Y/n]: " -c confirmation
-    confirmation=${confirmation:-y}  # Default to "y" if no input within 5 seconds
+    vared -p "Update now? [Y]/n: " -c confirmation
 
-    if [ "$confirmation" = "y" ] || [ "$confirmation" = "Y" ]; then
+    if [ -z "${confirmation}" ] || [ "${confirmation}" == "y" ] || [ "${confirmation}" == "Y" ]; then
         # Add the custom string and execute the user's command
-        echo "${update_command}" | bash
-        return
+        brew upgrade
     fi
 }
 
-if [ ! -e "$timestamp_file" ] || [ "$(date +%Y%m%d)" -ne "$(cat "$timestamp_file")" ]; then
-    brew outdated &
-    command_pid=$!
-    spinner ${command_pid}
-    command_output=$(wait $command_pid 2>/dev/null)
-
-    update_packages ${command_output}
-
+last_timestamp=$(cat "$timestamp_file")
+curr_timestamp=$(date +%Y%m%d)
+output_file=$(mktemp)
+if [ -z "$last_timestamp" ] || [ "${curr_timestamp}" -ne "${last_timestamp}" ]; then
     # Update the timestamp file with today's date
     date +%Y%m%d > "$timestamp_file"
+    brew outdated > "${output_file}" &
+    command_pid=$!
+    spinner ${command_pid}
+    wait $command_pid
 fi
 
+if [ -z "$(cat ${output_file})" ]; then
+    exit 0
+fi
+
+update_packages "${output_file}"
