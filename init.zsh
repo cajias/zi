@@ -3,33 +3,13 @@
 # My z-shell preferences
 #
 
-zinit snippet OMZP::git-prompt
+export ZSH_COLORIZE_TOOL=chroma
+export NVM_COMPLETION=true
+export NVM_SYMLINK_CURRENT="true"
+export ZSH_THEME="robbyrussell"
 
-zinit wait lucid for \
-  atinit"zicompinit; zicdreplay"  \
-        zdharma-continuum/fast-syntax-highlighting \
-      OMZP::colored-man-pages \
-      OMZP::dotenv \
-      OMZP::timer \
-      OMZP::ssh-agent \
-      OMZP::colorize \
-      z-shell/H-S-MW \
-      z-shell/F-Sy-H
-
-ZSH_COLORIZE_TOOL=chroma
-
-zinit as"program" make'!' atclone'./direnv hook zsh > zhook.zsh' \
-    atpull'%atclone' pick"direnv" src"zhook.zsh" for \
-        direnv/direnv
-
-zinit snippet OMZL::git.zsh
-
-zinit snippet OMZP::git
-zinit snippet OMZL::theme-and-appearance.zsh
-zinit snippet OMZL::prompt_info_functions.zsh
-setopt prompt_subst
-zinit snippet OMZT::robbyrussell
-ZSH_THEME="robbyrussell"
+zinit ice blockf atpull'zinit creinstall -q .'
+zinit light zsh-users/zsh-completions
 
 zstyle ':completion:*' completer _complete _match _approximate
 zstyle ':completion:*:match:*' original only
@@ -52,18 +32,43 @@ zstyle ':completion:*:functions' ignored-patterns '(_*|pre(cmd|exec))'
 zstyle ':completion:*' use-cache true
 zstyle ':completion:*' rehash true
 
+autoload compinit
+compinit
+
+zinit light zdharma-continuum/fast-syntax-highlighting
+zinit light zsh-users/zsh-autosuggestions
+zinit snippet OMZP::git-prompt
 
 
-zstyle :omz:plugins:ssh-agent identities ~/.ssh/id_ecdsa.pub
+
+zinit as"program" make'!' atclone'./direnv hook zsh > zhook.zsh' \
+    atpull'%atclone' pick"direnv" src"zhook.zsh" for \
+        direnv/direnv
+
+zinit wait lucid light-mode for \
+      OMZP::colored-man-pages \
+      OMZP::dotenv \
+      OMZP::timer \
+      OMZP::colorize \
+      z-shell/H-S-MW \
+      z-shell/F-Sy-H \
+      lukechilds/zsh-nvm
+
+zinit snippet OMZL::git.zsh
+
+zinit snippet OMZP::git
+zinit snippet OMZL::theme-and-appearance.zsh
+zinit snippet OMZL::prompt_info_functions.zsh
+setopt prompt_subst
+zinit snippet OMZT::robbyrussell
+
+
+zinit snippet OMZP::ssh-agent
 zstyle :omz:plugins:ssh-agent lazy yes
 zstyle :omz:plugins:ssh-agent helper ksshaskpass
 
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
-[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
-
-zinit snippet OMZL::nvm.zsh
-
 zinit snippet OMZL::directories.zsh
 zinit snippet OMZL::history.zsh
+
+
+source ./bin/update-brew-interactive.sh
