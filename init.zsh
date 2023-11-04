@@ -69,6 +69,3 @@ zstyle :omz:plugins:ssh-agent helper ksshaskpass
 
 zinit snippet OMZL::directories.zsh
 zinit snippet OMZL::history.zsh
-
-
-source ./bin/update-brew-interactive.sh
