@@ -1,4 +1,7 @@
-
+########################################################
+# 
+# My z-shell preferences
+#
 
 zi snippet OMZP::git-prompt
 
