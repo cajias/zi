@@ -1,4 +1,5 @@
 #!/bin/zsh
+
 script_dir="$(cd "$(dirname "$0")" && pwd)"
 timestamp_file="${script_dir}/.daily_script_timestamp"
 touch "${timestamp_file}"
@@ -31,36 +32,37 @@ spinner() {
     echo -e "\r"  # Clear the spinner line
 }
 
-update_packages(){
-    local packages=$(cat $1)
-    echo "${ALERT}"
-    echo "=========================================="
-    echo "  Homebrew Updates Available"
-    echo ""
-    echo "${packages}"
-    echo ""
-    echo "${bold} To update run \"${ALERT}brew upgrade${NC}\"."
-    echo "=========================================="
-    vared -p "Update now? [Y]/n: " -c confirmation
-
-    if [ -z "${confirmation}" ] || [ "${confirmation}" == "y" ] || [ "${confirmation}" == "Y" ]; then
-        # Add the custom string and execute the user's command
-        brew upgrade
-    fi
-}
-
 last_timestamp=$(cat "$timestamp_file")
 curr_timestamp=$(date +%Y%m%d)
 output_file=$(mktemp)
 if [ -z "$last_timestamp" ] || [ "${curr_timestamp}" -ne "${last_timestamp}" ]; then
     # Update the timestamp file with today's date
     date +%Y%m%d > "$timestamp_file"
-    brew outdated > "${output_file}" &
+    brew outdated > "${output_file}" > /dev/null 2>&1 &
+    disown $command_pid
     command_pid=$!
     spinner ${command_pid}
-    wait $command_pid
+    wait $command_pid > /dev/null 2>&1
 fi
 
-if [ -n "$(cat ${output_file})" ]; then
-    update_packages "${output_file}"
+if [ -z "$(cat ${output_file})" ]; then
+    exit 0
 fi
+
+packages=$(cat "${output_file}")
+echo "${ALERT}"
+echo "=========================================="
+echo "  Homebrew Updates Available"
+echo ""
+echo "${packages}"
+echo ""
+echo "${bold} To update run \"${ALERT}brew upgrade${NC}\"."
+echo "=========================================="
+confirmation=
+vared -p "Update now? [Y]/n: " -c confirmation
+echo $confirmation
+if [ -z "${confirmation}" ] || [ "${confirmation}" = "y" ] || [ "${confirmation}" = "Y" ]; then
+    # Add the custom string and execute the user's command
+    brew upgrade
+fi
+
