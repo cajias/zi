@@ -62,7 +62,9 @@ zinit snippet OMZL::history.zsh
 
 zinit snippet OMZP::ssh-agent
 zstyle :omz:plugins:ssh-agent lazy yes
+zstyle :omz:plugins:ssh-agent quiet yes
 zstyle :omz:plugins:ssh-agent helper ksshaskpass
+zstyle :omz:plugins:ssh-agent ssh-add-args --apple-load-keychain
 
 zinit ice depth=1; zinit light romkatv/powerlevel10k
 
