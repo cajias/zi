@@ -20,4 +20,5 @@ workspace/
 MacOSEncryptedVolumeTools/
 !.gitignore
 !.gitconfig_base
+!.zshrc.base
 !bin

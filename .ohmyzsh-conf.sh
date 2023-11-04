@@ -71,9 +71,11 @@ DISABLE_UPDATE_PROMPT="true"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git H-S-MW timer F-Sy-H)
+#plugins=(git H-S-MW timer F-Sy-H zsh-autosuggestions zsh-syntax-highlighting sh-agent autojump colorize npm)
 
 source $ZSH/oh-my-zsh.sh
 
 #alias zshconfig="mate ~/.zshrc"
 #alias ohmyzsh="mate ~/.oh-my-zsh"
+
+source <(curl -sL init.zshell.dev); zzinit
