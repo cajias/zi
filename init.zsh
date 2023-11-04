@@ -6,7 +6,6 @@ setopt prompt_subst
 export ZSH_COLORIZE_TOOL=chroma
 export NVM_COMPLETION=true
 export NVM_SYMLINK_CURRENT="true"
-export ZSH_THEME="robbyrussell"
 
 autoload compinit
 compinit
@@ -38,9 +37,6 @@ zstyle ':completion:*' use-cache true
 zstyle ':completion:*' rehash true
 
 
-
-
-
 zinit as"program" make'!' atclone'./direnv hook zsh > zhook.zsh' \
     atpull'%atclone' pick"direnv" src"zhook.zsh" for \
         direnv/direnv
@@ -60,7 +56,6 @@ zinit snippet OMZL::git.zsh
 zinit snippet OMZP::git
 zinit snippet OMZL::theme-and-appearance.zsh
 zinit snippet OMZL::prompt_info_functions.zsh
-zinit snippet OMZT::robbyrussell
 zinit snippet OMZL::directories.zsh
 zinit snippet OMZL::history.zsh
 
@@ -68,3 +63,8 @@ zinit snippet OMZL::history.zsh
 zinit snippet OMZP::ssh-agent
 zstyle :omz:plugins:ssh-agent lazy yes
 zstyle :omz:plugins:ssh-agent helper ksshaskpass
+
+zinit ice depth=1; zinit light romkatv/powerlevel10k
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
