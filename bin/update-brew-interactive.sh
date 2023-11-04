@@ -60,7 +60,6 @@ echo "${bold} To update run \"${ALERT}brew upgrade${NC}\"."
 echo "=========================================="
 confirmation=
 vared -p "Update now? [Y]/n: " -c confirmation
-echo $confirmation
 if [ -z "${confirmation}" ] || [ "${confirmation}" = "y" ] || [ "${confirmation}" = "Y" ]; then
     # Add the custom string and execute the user's command
     brew upgrade
