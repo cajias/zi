@@ -22,13 +22,13 @@ zinit as"program" make'!' atclone'./direnv hook zsh > zhook.zsh' \
     atpull'%atclone' pick"direnv" src"zhook.zsh" for \
         direnv/direnv
 
-zi snippet OMZL::git.zsh
+zinit snippet OMZL::git.zsh
 
-zi snippet OMZP::git
-zi snippet OMZL::theme-and-appearance.zsh
-zi snippet OMZL::prompt_info_functions.zsh
+zinit snippet OMZP::git
+zinit snippet OMZL::theme-and-appearance.zsh
+zinit snippet OMZL::prompt_info_functions.zsh
 setopt prompt_subst
-zi snippet OMZT::robbyrussell
+zinit snippet OMZT::robbyrussell
 ZSH_THEME="robbyrussell"
 
 zstyle ':completion:*' completer _complete _match _approximate
@@ -63,7 +63,7 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
 [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 
-zi snippet OMZL::nvm.zsh
+zinit snippet OMZL::nvm.zsh
 
-zi snippet OMZL::directories.zsh
-zi snippet OMZL::history.zsh
+zinit snippet OMZL::directories.zsh
+zinit snippet OMZL::history.zsh
