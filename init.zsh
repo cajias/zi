@@ -3,7 +3,7 @@
 # My z-shell preferences
 #
 
-zi snippet OMZP::git-prompt
+zinit snippet OMZP::git-prompt
 
 zinit wait lucid for \
   atinit"zicompinit; zicdreplay"  \
