@@ -49,7 +49,6 @@ zinit wait lucid light-mode for \
 
 zinit snippet OMZP::git-prompt
 zinit snippet OMZP::colored-man-pages
-zinit snippet OMZP::dotenv
 zinit snippet OMZP::colorize
 zinit snippet OMZL::git.zsh
 zinit snippet OMZP::git
