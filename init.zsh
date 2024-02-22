@@ -47,18 +47,6 @@ zinit wait lucid light-mode for \
     z-shell/F-Sy-H \
     lukechilds/zsh-nvm
 
-zinit snippet OMZP::git-prompt
-zinit snippet OMZP::colored-man-pages
-zinit snippet OMZP::dotenv
-zinit snippet OMZP::colorize
-zinit snippet OMZL::git.zsh
-zinit snippet OMZP::git
-zinit snippet OMZL::theme-and-appearance.zsh
-zinit snippet OMZL::prompt_info_functions.zsh
-zinit snippet OMZL::directories.zsh
-zinit snippet OMZL::history.zsh
-
-
 zinit snippet OMZP::ssh-agent
 zstyle :omz:plugins:ssh-agent lazy yes
 zstyle :omz:plugins:ssh-agent quiet yes
