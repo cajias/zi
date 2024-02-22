@@ -11,9 +11,9 @@ autoload compinit
 compinit
 
 
-zinit ice blockf atpull'zinit creinstall -q .'
-zinit light zsh-users/zsh-completions
-zinit light zsh-users/zsh-autosuggestions
+zi ice blockf atpull'zinit creinstall -q .'
+zi light zsh-users/zsh-completions
+zi light zsh-users/zsh-autosuggestions
 
 zstyle ':completion:*' completer _complete _match _approximate
 zstyle ':completion:*:match:*' original only
@@ -37,20 +37,21 @@ zstyle ':completion:*' use-cache true
 zstyle ':completion:*' rehash true
 
 
-zinit as"program" make'!' atclone'./direnv hook zsh > zhook.zsh' \
+zi as"program" make'!' atclone'./direnv hook zsh > zhook.zsh' \
     atpull'%atclone' pick"direnv" src"zhook.zsh" for \
         direnv/direnv
 
-zinit wait lucid light-mode for \
+zi wait lucid light-mode for \
     zdharma-continuum/fast-syntax-highlighting \
     z-shell/H-S-MW \
     z-shell/F-Sy-H \
     lukechilds/zsh-nvm
 
-zinit snippet OMZP::ssh-agent
+zi snippet OMZP::ssh-agent
 zstyle :omz:plugins:ssh-agent lazy yes
 zstyle :omz:plugins:ssh-agent quiet yes
 zstyle :omz:plugins:ssh-agent helper ksshaskpass
 zstyle :omz:plugins:ssh-agent ssh-add-args --apple-load-keychain
 
-zinit ice depth=1; zinit light romkatv/powerlevel10k
+zi ice depth=1; 
+zi light romkatv/powerlevel10k
