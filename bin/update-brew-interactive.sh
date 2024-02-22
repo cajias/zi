@@ -33,7 +33,7 @@ spinner() {
 }
 
 last_timestamp=$(cat "$timestamp_file")
-curr_timestamp=$(date +%Y%m%d)
+curr_timestamp=$(date +%V)
 output_file=$(mktemp)
 if [ -z "$last_timestamp" ] || [ "${curr_timestamp}" -ne "${last_timestamp}" ]; then
     # Update the timestamp file with today's date
