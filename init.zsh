@@ -9,7 +9,7 @@ export NVM_SYMLINK_CURRENT="true"
 
 zinit ice blockf atpull'zinit creinstall -q .'
 zinit light zsh-users/zsh-completions
-zinit light zsh-users/zsh-completions light zsh-users/zsh-autosuggestions
+zinit light zsh-users/zsh-autosuggestions
 
 zstyle ':completion:*' completer _complete _match _approximate
 zstyle ':completion:*:match:*' original only
