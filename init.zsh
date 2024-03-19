@@ -7,13 +7,9 @@ export ZSH_COLORIZE_TOOL=chroma
 export NVM_COMPLETION=true
 export NVM_SYMLINK_CURRENT="true"
 
-autoload compinit
-compinit
-
-
-zi ice blockf atpull'zinit creinstall -q .'
-zi light zsh-users/zsh-completions
-zi light zsh-users/zsh-autosuggestions
+zinit ice blockf atpull'zinit creinstall -q .'
+zinit light zsh-users/zsh-completions
+zinit light zsh-users/zsh-completions light zsh-users/zsh-autosuggestions
 
 zstyle ':completion:*' completer _complete _match _approximate
 zstyle ':completion:*:match:*' original only
@@ -37,21 +33,21 @@ zstyle ':completion:*' use-cache true
 zstyle ':completion:*' rehash true
 
 
-zi as"program" make'!' atclone'./direnv hook zsh > zhook.zsh' \
+zinit as"program" make'!' atclone'./direnv hook zsh > zhook.zsh' \
     atpull'%atclone' pick"direnv" src"zhook.zsh" for \
         direnv/direnv
 
-zi wait lucid light-mode for \
+zinit wait lucid light-mode for \
     zdharma-continuum/fast-syntax-highlighting \
     z-shell/H-S-MW \
     z-shell/F-Sy-H \
     lukechilds/zsh-nvm
 
-zi snippet OMZP::ssh-agent
+zinit snippet OMZP::ssh-agent
 zstyle :omz:plugins:ssh-agent lazy yes
 zstyle :omz:plugins:ssh-agent quiet yes
 zstyle :omz:plugins:ssh-agent helper ksshaskpass
 zstyle :omz:plugins:ssh-agent ssh-add-args --apple-load-keychain
 
-zi ice depth=1; 
-zi light romkatv/powerlevel10k
+zinit ice depth=1; 
+zinit light romkatv/powerlevel10k
