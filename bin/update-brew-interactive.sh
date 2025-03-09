@@ -33,7 +33,7 @@ spinner() {
 }
 
 last_timestamp=$(cat "$timestamp_file")
-curr_timestamp=$(date +%V)
+curr_timestamp=$(date +%U) # week of year
 output_file=$(mktemp)
 if [ -z "$last_timestamp" ] || [ "${curr_timestamp}" -ne "${last_timestamp}" ]; then
     # Update the timestamp file with today's date
@@ -45,7 +45,7 @@ if [ -z "$last_timestamp" ] || [ "${curr_timestamp}" -ne "${last_timestamp}" ]; 
     wait $command_pid > /dev/null 2>&1
 fi
 
-if [ -z "$(cat ${output_file})" ]; then
+if [ -z "$(cat "${output_file}")" ]; then
     exit 0
 fi
 
