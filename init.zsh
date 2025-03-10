@@ -7,17 +7,17 @@ export ZSH_COLORIZE_TOOL=chroma
 export NVM_COMPLETION=true
 export NVM_SYMLINK_CURRENT="true"
 
-# Install Sheldon plugin manager if not already installed
+# Check if Sheldon plugin manager is installed
 SHELDON_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/sheldon"
-if [[ ! -f "$SHELDON_DIR/repos.lock" ]]; then
-  echo "Installing Sheldon plugin manager..."
-  if command -v brew >/dev/null 2>&1; then
-    brew install sheldon
-  else
-    echo "Please install Sheldon using your package manager or cargo:"
+if [[ ! -f "$SHELDON_DIR/repos.lock" ]] && ! command -v sheldon >/dev/null 2>&1; then
+  # Create temporary directory structure
+  mkdir -p "$SHELDON_DIR"
+  # Only show message in interactive non-login shells if needed
+  if [[ -o interactive ]]; then
+    echo "Sheldon plugin manager not found. Please install it:"
+    echo "  brew install sheldon"
+    echo "  or"
     echo "  cargo install sheldon"
-    # Create temporary directory structure
-    mkdir -p "$SHELDON_DIR"
   fi
 fi
 
@@ -74,8 +74,8 @@ use = ["ssh-agent.plugin.zsh"]
 EOF
   fi
   
-  # Source sheldon
-  eval "$(sheldon source)"
+  # Source sheldon with output suppressed to avoid test messages
+  eval "$(sheldon source 2>/dev/null)"
 else
   # Fallback to basic zsh configuration
   autoload -Uz compinit
@@ -102,7 +102,7 @@ else
   zstyle ':completion:*' rehash true
 fi
 
-# Run brew update check using a terminal multiplexer or in a new window
+# Run weekly brew update check using a terminal multiplexer or in a new window
 brew_check_function() {
   # Only show brew updates if we're in an interactive shell
   if [[ -o interactive ]]; then
@@ -123,8 +123,8 @@ brew_check_function() {
   fi
 }
 
-# Run the function in the background
-brew_check_function &
+# Run the function in the background, but redirect output to prevent "done" message
+brew_check_function > /dev/null 2>&1 &
 
 # Load Powerlevel10k theme if available
 if [[ -f "$HOME/.p10k.zsh" ]]; then

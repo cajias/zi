@@ -36,8 +36,8 @@ last_timestamp=$(cat "$timestamp_file")
 curr_timestamp=$(date +%U) # week of year
 output_file=$(mktemp)
 if [ -z "$last_timestamp" ] || [ "${curr_timestamp}" -ne "${last_timestamp}" ]; then
-    # Update the timestamp file with today's date
-    date +%Y%m%d > "$timestamp_file"
+    # Update the timestamp file with the current week number
+    echo "${curr_timestamp}" > "$timestamp_file"
     brew outdated > "${output_file}" > /dev/null 2>&1 &
     disown $command_pid
     command_pid=$!
