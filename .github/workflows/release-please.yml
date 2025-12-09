@@ -33,49 +33,31 @@ jobs:
           echo "Version: ${{ steps.release.outputs.version }}"
           echo "HTML URL: ${{ steps.release.outputs.html_url }}"
 
-  update-homebrew:
+  trigger-homebrew-update:
     needs: release-please
     if: needs.release-please.outputs.release_created == 'true'
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout shell settings repository
-        uses: actions/checkout@v4
+      - name: Trigger homebrew-tools formula update
+        uses: actions/github-script@v7
         with:
-          ref: ${{ needs.release-please.outputs.tag_name }}
-          fetch-depth: 0
+          github-token: ${{ secrets.TAP_REPO_TOKEN }}
+          script: |
+            await github.rest.repos.createDispatchEvent({
+              owner: 'cajias',
+              repo: 'homebrew-tools',
+              event_type: 'shell-settings-release',
+              client_payload: {
+                version: '${{ needs.release-please.outputs.version }}',
+                tag_name: '${{ needs.release-please.outputs.tag_name }}',
+                repository: 'dotfiles',
+                release_url: 'https://github.com/${{ github.repository }}/releases/tag/${{ needs.release-please.outputs.tag_name }}'
+              }
+            })
 
-      - name: Set up Git
+      - name: Show dispatch event sent
         run: |
-          git config --global user.name "GitHub Actions"
-          git config --global user.email "actions@github.com"
-
-      - name: Checkout homebrew-tools repository
-        uses: actions/checkout@v4
-        with:
-          repository: cajias/homebrew-tools
-          path: homebrew-tools
-          token: ${{ secrets.TAP_REPO_TOKEN }}
-
-      - name: Update Homebrew Formula
-        run: |
-          VERSION="${{ needs.release-please.outputs.version }}"
-          GITHUB_USER=cajias
-          SHELL_REPO=zi
-          FORMULA_FILE=homebrew-tools/shell-settings.rb
-
-          # Calculate SHA256 of the release tarball
-          echo "Calculating SHA256 of release tarball..."
-          TARBALL_URL="https://github.com/$GITHUB_USER/$SHELL_REPO/archive/refs/tags/v$VERSION.tar.gz"
-          SHA256=$(curl -sL "$TARBALL_URL" | shasum -a 256 | awk '{print $1}')
-          echo "SHA256: $SHA256"
-
-          # Update version and SHA256 in formula
-          cd homebrew-tools
-          sed -i '' "s|version \".*\"|version \"$VERSION\"|g" shell-settings.rb
-          sed -i '' "s|url \".*\"|url \"https://github.com/$GITHUB_USER/$SHELL_REPO/archive/refs/tags/v$VERSION.tar.gz\"|g" shell-settings.rb
-          sed -i '' "s|sha256 \".*\"|sha256 \"$SHA256\"|g" shell-settings.rb
-
-          # Commit and push changes
-          git add shell-settings.rb
-          git commit -m "Update shell-settings formula to v$VERSION"
-          git push
+          echo "Repository dispatch event triggered for homebrew-tools"
+          echo "Event type: shell-settings-release"
+          echo "Version: ${{ needs.release-please.outputs.version }}"
+          echo "Tag: ${{ needs.release-please.outputs.tag_name }}"
