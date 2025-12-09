@@ -1,0 +1,81 @@
+name: Release Please
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    outputs:
+      release_created: ${{ steps.release.outputs.release_created }}
+      tag_name: ${{ steps.release.outputs.tag_name }}
+      version: ${{ steps.release.outputs.version }}
+    steps:
+      - name: Run Release Please
+        id: release
+        uses: googleapis/release-please-action@v4
+        with:
+          release-type: simple
+          token: ${{ secrets.GITHUB_TOKEN }}
+          config-file: .release-pleaserc.json
+
+      - name: Show Release Info
+        if: steps.release.outputs.release_created
+        run: |
+          echo "Release created: ${{ steps.release.outputs.release_created }}"
+          echo "Tag name: ${{ steps.release.outputs.tag_name }}"
+          echo "Version: ${{ steps.release.outputs.version }}"
+          echo "HTML URL: ${{ steps.release.outputs.html_url }}"
+
+  update-homebrew:
+    needs: release-please
+    if: needs.release-please.outputs.release_created == 'true'
+    runs-on: macos-latest
+    steps:
+      - name: Checkout shell settings repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.release-please.outputs.tag_name }}
+          fetch-depth: 0
+
+      - name: Set up Git
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+
+      - name: Checkout homebrew-tools repository
+        uses: actions/checkout@v4
+        with:
+          repository: cajias/homebrew-tools
+          path: homebrew-tools
+          token: ${{ secrets.TAP_REPO_TOKEN }}
+
+      - name: Update Homebrew Formula
+        run: |
+          VERSION="${{ needs.release-please.outputs.version }}"
+          GITHUB_USER=cajias
+          SHELL_REPO=zi
+          FORMULA_FILE=homebrew-tools/shell-settings.rb
+
+          # Calculate SHA256 of the release tarball
+          echo "Calculating SHA256 of release tarball..."
+          TARBALL_URL="https://github.com/$GITHUB_USER/$SHELL_REPO/archive/refs/tags/v$VERSION.tar.gz"
+          SHA256=$(curl -sL "$TARBALL_URL" | shasum -a 256 | awk '{print $1}')
+          echo "SHA256: $SHA256"
+
+          # Update version and SHA256 in formula
+          cd homebrew-tools
+          sed -i '' "s|version \".*\"|version \"$VERSION\"|g" shell-settings.rb
+          sed -i '' "s|url \".*\"|url \"https://github.com/$GITHUB_USER/$SHELL_REPO/archive/refs/tags/v$VERSION.tar.gz\"|g" shell-settings.rb
+          sed -i '' "s|sha256 \".*\"|sha256 \"$SHA256\"|g" shell-settings.rb
+
+          # Commit and push changes
+          git add shell-settings.rb
+          git commit -m "Update shell-settings formula to v$VERSION"
+          git push

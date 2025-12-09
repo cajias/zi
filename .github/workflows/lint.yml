@@ -1,0 +1,58 @@
+name: Lint
+
+on:
+  pull_request:
+    paths:
+      - '**/*.sh'
+      - 'Makefile'
+      - '.github/workflows/lint.yml'
+
+jobs:
+  shellcheck:
+    name: Lint Shell Scripts
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run shellcheck
+        uses: ludeeus/action-shellcheck@master
+        with:
+          scandir: './bin'
+          format: gcc
+          severity: warning
+
+  makefile:
+    name: Lint Makefile
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install checkmake
+        run: |
+          curl -sL https://github.com/rickybrent/checkmake/releases/download/0.2.2/checkmake-0.2.2.linux.x86_64.tar.gz | \
+          tar -xz -C /tmp && \
+          sudo mv /tmp/checkmake /usr/local/bin/checkmake
+
+      - name: Run checkmake
+        run: |
+          checkmake Makefile
+
+  init-zsh-syntax:
+    name: Check ZSH Syntax
+    runs-on: ubuntu-latest
+    container:
+      image: ubuntu:latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install ZSH
+        run: |
+          apt-get update
+          apt-get install -y zsh
+
+      - name: Check init.zsh syntax
+        run: |
+          zsh -n init.zsh
