@@ -29,37 +29,55 @@ if command -v sheldon >/dev/null 2>&1; then
   if [[ ! -f "$SHELDON_CONFIG_DIR/plugins.toml" ]]; then
     cat > "$SHELDON_CONFIG_DIR/plugins.toml" << 'EOF'
 # Sheldon configuration file
+# For more plugins and configurations, see: https://github.com/rossmacarthur/sheldon
 
 shell = "zsh"
 
 [plugins]
 
+# Performance: Async operations (required by some plugins)
+[plugins.zsh-async]
+github = "mafredri/zsh-async"
+
+# Performance: Lazy load heavy plugins to speed up startup
+# Example: lazyload fzf-tab zoxide npm -- eval "$(fzf-tab --init)"
+[plugins.zsh-lazy-load]
+github = "unixorn/zsh-lazyload"
+
+# Autosuggestions
 [plugins.zsh-autosuggestions]
 github = "zsh-users/zsh-autosuggestions"
 
+# Completions
 [plugins.zsh-completions]
 github = "zsh-users/zsh-completions"
 
+# Syntax highlighting
 [plugins.fast-syntax-highlighting]
 github = "zdharma-continuum/fast-syntax-highlighting"
 
+# History substring search
 [plugins.zsh-history-substring-search]
 github = "zsh-users/zsh-history-substring-search"
 
+# Theme
 [plugins.powerlevel10k]
 github = "romkatv/powerlevel10k"
 
-[plugins.zsh-nvm]
-github = "lukechilds/zsh-nvm"
+# Optional: Node.js NVM (lazy load with: lazyload nvm -- eval "$(nvm env --shell zsh)")
+# [plugins.zsh-nvm]
+# github = "lukechilds/zsh-nvm"
 
-[plugins.ohmyzsh-git]
-github = "ohmyzsh/ohmyzsh"
-dir = "plugins/git"
+# Optional: Git shortcuts from Oh My Zsh
+# [plugins.ohmyzsh-git]
+# github = "ohmyzsh/ohmyzsh"
+# dir = "plugins/git"
 
-[plugins.ohmyzsh-ssh-agent]
-github = "ohmyzsh/ohmyzsh"
-dir = "plugins/ssh-agent"
-use = ["ssh-agent.plugin.zsh"]
+# Optional: SSH agent from Oh My Zsh
+# [plugins.ohmyzsh-ssh-agent]
+# github = "ohmyzsh/ohmyzsh"
+# dir = "plugins/ssh-agent"
+# use = ["ssh-agent.plugin.zsh"]
 EOF
   fi
 
