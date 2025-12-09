@@ -6,6 +6,17 @@ setopt prompt_subst
 export ZSH_COLORIZE_TOOL=chroma
 export NVM_SYMLINK_CURRENT="true"
 
+# Initialize completions FIRST (before loading plugins)
+# This ensures compdef is available for any plugin that needs it
+autoload -Uz compinit
+compinit
+
+# Setup key bindings for terminal compatibility (fixes backspace and arrow keys)
+bindkey "^?" backward-delete-char
+bindkey "^[[3~" delete-char
+bindkey "^[[A" up-line-or-search
+bindkey "^[[B" down-line-or-search
+
 # Check if Sheldon plugin manager is installed
 SHELDON_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/sheldon"
 if [[ ! -f "$SHELDON_DIR/repos.lock" ]] && ! command -v sheldon >/dev/null 2>&1; then
@@ -82,16 +93,10 @@ EOF
   fi
 
   # Source sheldon with output suppressed to avoid test messages
+  # Note: compinit already ran above, so compdef is available for plugins that need it
   eval "$(sheldon source 2>/dev/null)"
-
-  # Explicitly initialize completions after plugins are loaded
-  autoload -Uz compinit
-  compinit
 else
-  # Fallback to basic zsh configuration
-  autoload -Uz compinit
-  compinit
-
+  # Fallback to basic zsh configuration (compinit already ran above)
   # Pretty Completions
   zstyle ':completion:*' completer _complete _match _approximate
   zstyle ':completion:*:match:*' original only
