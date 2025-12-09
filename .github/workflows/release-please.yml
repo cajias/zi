@@ -1,0 +1,63 @@
+name: Release Please
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    outputs:
+      release_created: ${{ steps.release.outputs.release_created }}
+      tag_name: ${{ steps.release.outputs.tag_name }}
+      version: ${{ steps.release.outputs.version }}
+    steps:
+      - name: Run Release Please
+        id: release
+        uses: googleapis/release-please-action@v4
+        with:
+          release-type: simple
+          token: ${{ secrets.GITHUB_TOKEN }}
+          config-file: .release-pleaserc.json
+
+      - name: Show Release Info
+        if: steps.release.outputs.release_created
+        run: |
+          echo "Release created: ${{ steps.release.outputs.release_created }}"
+          echo "Tag name: ${{ steps.release.outputs.tag_name }}"
+          echo "Version: ${{ steps.release.outputs.version }}"
+          echo "HTML URL: ${{ steps.release.outputs.html_url }}"
+
+  trigger-homebrew-update:
+    needs: release-please
+    if: needs.release-please.outputs.release_created == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger homebrew-tools formula update
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.TAP_REPO_TOKEN }}
+          script: |
+            await github.rest.repos.createDispatchEvent({
+              owner: 'cajias',
+              repo: 'homebrew-tools',
+              event_type: 'shell-settings-release',
+              client_payload: {
+                version: '${{ needs.release-please.outputs.version }}',
+                tag_name: '${{ needs.release-please.outputs.tag_name }}',
+                repository: 'dotfiles',
+                release_url: 'https://github.com/${{ github.repository }}/releases/tag/${{ needs.release-please.outputs.tag_name }}'
+              }
+            })
+
+      - name: Show dispatch event sent
+        run: |
+          echo "Repository dispatch event triggered for homebrew-tools"
+          echo "Event type: shell-settings-release"
+          echo "Version: ${{ needs.release-please.outputs.version }}"
+          echo "Tag: ${{ needs.release-please.outputs.tag_name }}"
