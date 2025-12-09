@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - '**/*.sh'
+      - 'init.zsh'
       - 'Makefile'
       - '.github/workflows/lint.yml'
 
