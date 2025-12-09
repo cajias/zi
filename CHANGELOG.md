@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.1.0](https://github.com/cajias/zi/compare/v1.0.0...v1.1.0) (2025-12-09)
+
+
+### Features
+
+* add zsh-async and zsh-lazy-load to default plugins with documentation ([35f1b98](https://github.com/cajias/zi/commit/35f1b989012052b07dc359f35530f9daccd4059b))
+
+
+### Bug Fixes
+
+* Initialize completions before loading plugins and add terminal key bindings ([#4](https://github.com/cajias/zi/issues/4)) ([ce37ae9](https://github.com/cajias/zi/commit/ce37ae97d8a32da2c0f9370dca7e1fcf2189513e))
+
 ## 1.0.0 (2025-12-09)
 
 
