@@ -21,7 +21,7 @@ jobs:
           scandir: './bin'
           format: gcc
           severity: warning
-          ignore: install-brew-launcher update-brew-interactive
+          ignore_names: 'install-brew-launcher.sh update-brew-interactive.sh'
 
   makefile:
     name: Lint Makefile
