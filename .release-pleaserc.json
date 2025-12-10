@@ -5,7 +5,6 @@
   "prerelease-type": "alpha",
   "include-v-in-tag": true,
   "skip-github-release": false,
-  "skip-pull-request": true,
   "changelog-sections": [
     {
       "type": "feat",
