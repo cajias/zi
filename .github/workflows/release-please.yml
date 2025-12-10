@@ -24,6 +24,7 @@ jobs:
           release-type: simple
           token: ${{ secrets.GITHUB_TOKEN }}
           config-file: .release-pleaserc.json
+          skip-github-pull-request: true
 
       - name: Show Release Info
         if: steps.release.outputs.release_created
