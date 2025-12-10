@@ -214,3 +214,6 @@ alias gpu='git pull'
 
 # Test feature for monitoring release workflow
 alias test-release='echo "Release workflow test"'
+
+# Test feature 2 - verify direct release works
+alias test-direct-release='echo "Direct release test successful"'
