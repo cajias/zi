@@ -211,3 +211,6 @@ alias gpu='git pull'
 # Note: We've switched from zi to Sheldon, a Rust-based plugin manager
 # Sheldon is faster, more reliable, and uses TOML for configuration
 # To learn more or customize further: https://sheldon.cli.rs/
+
+# Test feature for monitoring release workflow
+alias test-release='echo "Release workflow test"'
