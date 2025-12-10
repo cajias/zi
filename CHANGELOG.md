@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.2.0](https://github.com/cajias/zi/compare/v1.1.0...v1.2.0) (2025-12-10)
+
+
+### Features
+
+* add test release workflow trigger ([fa32417](https://github.com/cajias/zi/commit/fa32417a4339851cd417a0429e82a588a6beebcf))
+
+
+### Bug Fixes
+
+* restore pull-requests permission for release-please ([e6c3a91](https://github.com/cajias/zi/commit/e6c3a912e0b0698e58fe56c738017be87ab230eb))
+
 ## [1.1.0](https://github.com/cajias/zi/compare/v1.0.0...v1.1.0) (2025-12-09)
 
 
