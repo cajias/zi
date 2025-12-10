@@ -5,8 +5,6 @@
   "prerelease-type": "alpha",
   "include-v-in-tag": true,
   "skip-github-release": false,
-  "draft-pull-request": false,
-  "manifest-file": ".release-manifest.json",
   "skip-pull-request": true,
   "changelog-sections": [
     {
