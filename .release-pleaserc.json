@@ -3,8 +3,9 @@
   "bump-minor-pre-major": false,
   "bump-patch-for-minor-pre-major": false,
   "prerelease-type": "alpha",
-  "pull-request-title-pattern": "chore: release ${version}",
-  "pull-request-header": "## Release ${version}\n\nAutomatically generated release candidate. Review the changelog and merge to publish.",
+  "include-v-in-tag": true,
+  "skip-github-release": false,
+  "skip-pull-request": true,
   "changelog-sections": [
     {
       "type": "feat",
@@ -31,8 +32,5 @@
       "section": "Documentation",
       "hidden": false
     }
-  ],
-  "include-v-in-tag": true,
-  "skip-github-release": false,
-  "draft-pull-request": false
+  ]
 }

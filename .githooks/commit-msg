@@ -1,0 +1,41 @@
+#!/bin/bash
+# Pre-commit hook to validate commit messages with commitlint
+# This ensures all commits follow conventional commits format before they're created
+
+commit_msg_file=$1
+
+# Colors for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m' # No Color
+
+# Check if commitlint is available
+if ! command -v commitlint &> /dev/null; then
+    echo -e "${YELLOW}⚠️  commitlint not found. Skipping commit message validation.${NC}"
+    echo "Install with: npm install -g @commitlint/cli @commitlint/config-conventional"
+    exit 0
+fi
+
+# Run commitlint on the commit message
+if ! commitlint --edit "$commit_msg_file"; then
+    echo ""
+    echo -e "${RED}✖ Commit message validation failed!${NC}"
+    echo ""
+    echo "Please use the conventional commits format:"
+    echo "  <type>(<scope>): <subject>"
+    echo ""
+    echo "Where type is one of:"
+    echo "  feat, fix, perf, refactor, style, test, docs, chore, ci, revert"
+    echo ""
+    echo "Examples:"
+    echo "  ci: add pre-commit hook for commitlint"
+    echo "  feat: add new shell alias for docker commands"
+    echo "  fix: resolve zsh completion issue"
+    echo ""
+    echo "More info: https://www.conventionalcommits.org/"
+    exit 1
+fi
+
+echo -e "${GREEN}✓ Commit message is valid${NC}"
+exit 0
