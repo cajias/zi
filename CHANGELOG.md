@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.2.0](https://github.com/cajias/dotfiles/compare/v1.1.0...v1.2.0) (2025-12-16)
+
+
+### Features
+
+* add direct release test feature ([d93ad0b](https://github.com/cajias/dotfiles/commit/d93ad0b2ef5c6c97c7aac57fb567fa13c5c002e9))
+* add test release workflow trigger ([fa32417](https://github.com/cajias/dotfiles/commit/fa32417a4339851cd417a0429e82a588a6beebcf))
+* enable direct releases without pull request step ([716e4d6](https://github.com/cajias/dotfiles/commit/716e4d661119d9fa73e4dabac5abe9d50d3f2a57))
+
+
+### Bug Fixes
+
+* restore pull-requests permission for release-please ([e6c3a91](https://github.com/cajias/dotfiles/commit/e6c3a912e0b0698e58fe56c738017be87ab230eb))
+* revert skip-github-pull-request - not working in v17 ([38c1843](https://github.com/cajias/dotfiles/commit/38c1843bfbfca6b268bc1722ba47396b6f12a343))
+* revert to PR-based release workflow ([3673307](https://github.com/cajias/dotfiles/commit/367330717f0e84d9228adff82a3c6648923d2315))
+
 ## [1.1.0](https://github.com/cajias/zi/compare/v1.0.0...v1.1.0) (2025-12-09)
 
 
