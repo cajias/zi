@@ -46,7 +46,7 @@ jobs:
             await github.rest.repos.createDispatchEvent({
               owner: 'cajias',
               repo: 'homebrew-tools',
-              event_type: 'shell-settings-release',
+              event_type: 'dotfiles-release',
               client_payload: {
                 version: '${{ needs.release-please.outputs.version }}',
                 tag_name: '${{ needs.release-please.outputs.tag_name }}',
@@ -58,6 +58,6 @@ jobs:
       - name: Show dispatch event sent
         run: |
           echo "Repository dispatch event triggered for homebrew-tools"
-          echo "Event type: shell-settings-release"
+          echo "Event type: dotfiles-release"
           echo "Version: ${{ needs.release-please.outputs.version }}"
           echo "Tag: ${{ needs.release-please.outputs.tag_name }}"
