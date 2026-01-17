@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.1](https://github.com/cajias/dotfiles/compare/v1.2.0...v1.2.1) (2026-01-17)
+
+
+### Bug Fixes
+
+* generate LaunchAgent plist dynamically with correct paths ([dd9f17a](https://github.com/cajias/dotfiles/commit/dd9f17a58bd0f72ac9c99a6e737927dabaeded8e))
+
 ## [1.2.0](https://github.com/cajias/dotfiles/compare/v1.1.0...v1.2.0) (2025-12-16)
 
 
